@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact - Jena de Lacré</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <img src="images/logo.png" alt="Logo Jena de Lacré" class="logo" />
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html">Accueil</a></li>
+          <li><a href="galerie-crayon.html">Galerie Crayon</a></li>
+          <li><a href="galerie-pastel.html">Galerie Pastel</a></li>
+          <li><a href="tarif.html">Tarifs</a></li>
+          <li><a href="contact.html" class="active">Contact</a></li>
+          <li><a href="cgv.html">CGV</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="contact">
+      <div class="container">
+        <h1>Contactez-moi</h1>
+        <p>Pour toute demande de devis ou d'information, remplissez le formulaire ci-dessous :</p>
+
+       <form action="https://formspree.io/f/xzzrpkwl" method="POST">
+       <input type="hidden" name="_captcha" value="false">
+       <input type="hidden" name="_redirect" value="https://tonsite.com/merci.html">
+
+
+
+
+
+          <label for="nom">Nom :</label>
+          <input type="text" id="nom" name="nom" required />
+
+          <label for="prenom">Prénom :</label>
+          <input type="text" id="prenom" name="prenom" required />
+
+          <label for="email">E-mail :</label>
+          <input type="email" id="email" name="email" required />
+
+          <label for="message">Message :</label>
+          <textarea id="message" name="message" rows="6" required></textarea>
+
+          <button type="submit" class="btn">Envoyer</button>
+        </form>
+
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2025 Jena Delacre- Tous droits réservés</p>
+    </div>
+  </footer>
+</body>
+</html>

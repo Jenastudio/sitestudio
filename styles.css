@@ -29,7 +29,7 @@ body {
 }
 
 .site-name {
-  font-size: 2rem;
+  font-size: 1.25rem;
   font-weight: bold;
   color: #333;
   text-decoration: none;
@@ -49,6 +49,14 @@ body {
   margin: 0;
 }
 
+/* partie media pour telephone */
+
+@media screen and (max-width: 600px) {
+  .site-name {
+    font-size: 1.1rem;
+  }
+}
+/* fin de la partie media pour telephone */
 .nav-links a {
   color: var(--blanc);
   text-decoration: none;

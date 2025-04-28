@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.studio-crayon.com/index.html</loc>
+    <lastmod>2025-04-28</lastmod>
+    <priority>1.00</priority>
+  </url>
+  <url>
+    <loc>https://www.studio-crayon.com/contact.html</loc>
+    <lastmod>2025-04-28</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.studio-crayon.com/galerie-pastel.html</loc>
+    <lastmod>2025-04-28</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.studio-crayon.com/galerie-crayon.html</loc>
+    <lastmod>2025-04-28</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.studio-crayon.com/tarif.html</loc>
+    <lastmod>2025-04-28</lastmod>
+    <priority>0.60</priority>
+  </url>
+  <url>
+    <loc>https://www.studio-crayon.com/cgv.html</loc>
+    <lastmod>2025-04-28</lastmod>
+    <priority>0.60</priority>
+  </url>
+</urlset>

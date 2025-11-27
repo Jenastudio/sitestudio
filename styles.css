@@ -49,14 +49,6 @@ body {
   margin: 0;
 }
 
-/* partie media pour telephone */
-
-@media screen and (max-width: 600px) {
-  .site-name {
-    font-size: 1.1rem;
-  }
-}
-/* fin de la partie media pour telephone */
 .nav-links a {
   color: var(--blanc);
   text-decoration: none;
@@ -92,12 +84,12 @@ body {
 }
 
 .hero-text {
-  margin-top: 100px; /* Ajoute un espace de 50px au-dessus de la section hero-text */
+  margin-top: 75px; /* Ajoute un espace de 50px au-dessus de la section hero-text */
 }
 
 .hero-text h1 { 
 
-  margin: 0 0 30px;
+  margin: 0 0 10px;
   font-size: 50px;
   font-weight: bold;
   text-align: center;
@@ -367,7 +359,7 @@ form .btn:hover {
 
 .grid-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Crée une grille flexible */
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Crée une grille flexible */
   gap: 20px;
   margin-top: 30px;
 }
@@ -375,7 +367,7 @@ form .btn:hover {
 .image-container {
   width: 100%;
   height: 0;
-  padding-bottom: 100%; /* Crée un carré parfait */
+  padding-bottom: 80%; /* Crée un carré parfait */
   position: relative;
   overflow: hidden;
   border-radius: 10px;
@@ -518,4 +510,118 @@ footer {
 .fade-in.visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+  /* ==========================
+   Media query mobile complète
+   ========================== */
+@media screen and (max-width: 768px) {
+
+  /* -------- Navigation -------- */
+  .site-header .container {
+    flex-direction: column;   /* logo au-dessus */
+    align-items: center;      /* logo centré */
+    gap: 8px;
+    width: 90%;               /* réduis la largeur pour être proche des bords */
+    max-width: 100%;          /* s’assure que ça ne dépasse pas l’écran */
+    margin: 0 auto;           /* centrer horizontalement */
+}
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1px;
+  }
+
+  .nav-links a {
+    font-size: 11px;
+    padding: 2px 4px;
+    white-space: nowrap; 
+  }
+
+  /* -------- Hero -------- */
+   .hero-text {
+    top: 35% !important;         /* descends le texte */
+    left: 50% !important;
+    transform: translate(-50%, 0) !important; /* neutralise la translation verticale */
+    width: 90% !important;
+    padding: 10px !important;
+  }
+
+  .hero-text h1 {
+    font-size: 20px !important;
+  }
+
+  .hero-text p {
+    font-size: 13px !important;
+  }
+/* -------- Bannière mobile -------- */
+.banner {
+  margin-bottom: 10px !important;  /* réduit l’espace blanc sous la bannière */
+  padding-bottom: 0 !important;
+  border-radius: 20px; /* garde l’arrondi si tu veux */
+}
+
+  /* -------- Miniatures cliquables vers la galerie -------- */
+  .images-container {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 8px !important;
+  }
+
+  .image-link {
+    width: 45% !important; 
+    max-width: 120px;                 /* taille maximale comme un bouton */
+    height: 80px !important;          /* hauteur fixe, rectangle léger */         /* deux par ligne */
+    padding-bottom: 30% !important; /* carré parfait */
+    position: relative !important;
+    overflow: hidden !important;
+    border-radius: 10px !important;
+  }
+
+  .image-link img,
+  .image-technique {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .image-link p {
+    font-size: 14px !important;
+  }
+
+  /* -------- Présentation -------- */
+  .presentation {
+    flex-direction: column !important;
+    padding: 20px 10px !important;
+  }
+
+  .presentation .container {
+    flex-direction: column !important;
+    align-items: center !important;
+  }
+
+  .presentation .container img {
+    max-width: 50% !important;
+    margin-bottom: 15px !important;
+  }
+
+  .presentation .container.text {
+    max-width: 90% !important;
+    padding-left: 0 !important;
+    text-align: center !important;
+  }
+
+  .presentation h2 { font-size: 20px !important; }
+  .presentation p { font-size: 15px !important; }
+
+  /* -------- CTA -------- */
+  .cta-text { font-size: 1rem !important; }
+  .cta-button { font-size: 0.9rem !important; padding: 8px 15px !important; }
+
 }

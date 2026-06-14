@@ -121,7 +121,6 @@
     *Veuillez d'abord choisir Crayon ou Pastel pour continuer
   </div>
 
-  <!-- CHOIX TECHNIQUE -->
   <div class="choices">
 
     <div class="card" id="crayon" onclick="selectType('crayon')">
@@ -136,7 +135,6 @@
 
   </div>
 
-  <!-- OPTIONS -->
   <div class="box disabled" id="optionsBox">
 
     <label>Nombre de sujets sur 1 dessin</label>
@@ -148,25 +146,20 @@
     <select id="format" disabled onchange="calculatePrice()"></select>
 
     <div class="price" id="price">Prix : -- €</div>
-    <div id="shipping"></div>
 
   </div>
 
-  <!-- CONSEIL PHOTO -->
   <div class="box">
     💡 Envoyez des photos nettes, bien éclairées et de face si possible.
   </div>
 
-  <!-- INFOS CLIENT -->
   <div class="box">
 
     <input type="text" id="name" placeholder="Nom *" required>
     <input type="text" id="firstname" placeholder="Prénom *" required>
     <input type="email" id="email" placeholder="Email *" required>
 
-    <textarea id="message"
-      placeholder="Précisions sur votre commande (optionnel)"
-      rows="5"></textarea>
+    <textarea id="message" placeholder="Précisions (optionnel)" rows="5"></textarea>
 
     <input type="file" id="images" multiple accept="image/*">
 
@@ -180,6 +173,12 @@
 
 <script>
 let type = null;
+let orderId = null;
+
+function getOrderId() {
+  if (!orderId) orderId = crypto.randomUUID();
+  return orderId;
+}
 
 const data = {
   crayon: {
@@ -207,13 +206,10 @@ function selectType(t) {
   document.querySelectorAll('.card').forEach(c => c.classList.remove('active'));
   document.getElementById(t).classList.add('active');
 
-  document.getElementById("warning").style.display = "none";
+  document.getElementById("optionsBox").classList.remove("disabled");
 
-  let box = document.getElementById("optionsBox");
-  box.classList.remove("disabled");
-
-  let subjects = document.getElementById("subjects");
-  let format = document.getElementById("format");
+  const subjects = document.getElementById("subjects");
+  const format = document.getElementById("format");
 
   subjects.disabled = false;
   format.disabled = false;
@@ -221,7 +217,7 @@ function selectType(t) {
   subjects.innerHTML = "";
 
   for (let i = 1; i <= 6; i++) {
-    subjects.innerHTML += `<option value="${i}">${i} sujet(s)</option>`;
+    subjects.innerHTML += `<option value="${i}">${i}</option>`;
   }
 
   updateFormats();
@@ -230,12 +226,12 @@ function selectType(t) {
 function updateFormats() {
   if (!type) return;
 
-  let s = document.getElementById("subjects").value;
-  let format = document.getElementById("format");
+  const s = document.getElementById("subjects").value;
+  const format = document.getElementById("format");
 
   format.innerHTML = "";
 
-  if (!data[type][s]) return;
+  if (!data[type]?.[s]) return;
 
   for (let f in data[type][s]) {
     format.innerHTML += `<option value="${f}">${f}</option>`;
@@ -245,59 +241,81 @@ function updateFormats() {
 }
 
 function calculatePrice() {
-  let s = document.getElementById("subjects").value;
-  let f = document.getElementById("format").value;
-
-  if (!type || !data[type][s] || !data[type][s][f]) return;
-
-  let price = data[type][s][f];
-  document.getElementById("price").innerText = "Prix : " + price + " €";
-}
-
-/* 🔥 STRIPE CLEAN */
-async function sendOrder() {
-
-  if (!type) {
-    alert("Choisis Crayon ou Pastel");
-    return;
-  }
-
   const s = document.getElementById("subjects").value;
   const f = document.getElementById("format").value;
 
+  if (!type || !data[type]?.[s]?.[f]) return;
 
- const order = {
-  type,
-  subjects: s,
-  format: f,
-  name: document.getElementById("name").value,
-  firstname: document.getElementById("firstname").value,
-  email: document.getElementById("email").value,
-  message: document.getElementById("message").value
-};
+  document.getElementById("price").innerText =
+    "Prix : " + data[type][s][f] + " €";
+}
 
-  try {
-    const res = await fetch("https://studio-crayon-api.jenagreen98.workers.dev/create-checkout-session", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(order)
-    });
+/* =========================
+   UPLOAD
+========================= */
+async function uploadImages() {
+  const input = document.getElementById("images");
+  const files = input.files;
 
-    const result = await res.json();
+  if (!files || files.length === 0) return [];
 
-    if (result.url) {
-      window.location.href = result.url;
-    } else {
-      alert("Erreur paiement Stripe");
-      console.log(result);
-    }
+  const urls = [];
 
-  } catch (e) {
-    console.error(e);
-    alert("Erreur paiement ❌");
+  for (const file of files) {
+    const fd = new FormData();
+    fd.append("file", file);
+    fd.append("orderId", getOrderId());
+
+    const res = await fetch(
+      "https://studio-crayon-api.jenagreen98.workers.dev/upload-image",
+      { method: "POST", body: fd }
+    );
+
+    const data = await res.json();
+    if (data.url) urls.push(data.url);
   }
+
+  return urls;
+}
+
+/* =========================
+   STRIPE (CORRIGÉ)
+========================= */
+async function sendOrder() {
+
+  if (!type) return alert("Choisis une technique");
+
+  const order = {
+    orderId: getOrderId(),
+    type,
+    subjects: document.getElementById("subjects").value,
+    format: document.getElementById("format").value,
+    name: document.getElementById("name").value,
+    firstname: document.getElementById("firstname").value,
+    email: document.getElementById("email").value,
+    message: document.getElementById("message").value
+  };
+
+  const res = await fetch(
+    "https://studio-crayon-api.jenagreen98.workers.dev/create-checkout-session",
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(order)
+    }
+  );
+
+  const result = await res.json();
+
+  if (!result.url) {
+    alert("Erreur Stripe");
+    console.log(result);
+    return;
+  }
+
+  await uploadImages();
+
+  window.location.href = result.url;
 }
 </script>
 

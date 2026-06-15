@@ -284,26 +284,46 @@ async function uploadImages(orderIdLocal) {
 ========================= */
 async function sendOrder() {
 
-  if (!type) return alert("Choisis une technique");
+  if (!type) {
+    alert("Choisis une technique");
+    return;
+  }
 
   const id = getOrderId();
 
   const order = {
+
     orderId: id,
-    type,
-    subjects: document.getElementById("subjects").value,
+
+    type: type,
+
+    subjects: Number(
+      document.getElementById("subjects").value
+    ),
+
     format: document.getElementById("format").value,
-    name: document.getElementById("firstname").value + " " + document.getElementById("name").value,
+
+    name: (
+      document.getElementById("firstname").value.trim()
+      + " " +
+      document.getElementById("name").value.trim()
+    ),
+
     email: document.getElementById("email").value.trim(),
-    address: document.getElementById("address")?.value || "",
+
     message: document.getElementById("message").value.trim()
+
   };
 
   const res = await fetch(
     "https://studio-crayon-api.jenagreen98.workers.dev/create-checkout-session",
     {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+
+      headers: {
+        "Content-Type": "application/json"
+      },
+
       body: JSON.stringify(order)
     }
   );
@@ -311,12 +331,14 @@ async function sendOrder() {
   const result = await res.json();
 
   if (!result.url) {
+
     alert("Erreur Stripe");
+
     console.log(result);
+
     return;
   }
 
-  // upload AVANT redirection (corrige perte de données)
   await uploadImages(id);
 
   window.location.href = result.url;

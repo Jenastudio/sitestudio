@@ -1,79 +1,204 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+
 <meta charset="UTF-8">
+
 <title>Admin Studio Crayon</title>
 
 <style>
-body { font-family: Arial; background:#111; color:#fff; padding:20px; }
-.card { background:#222; padding:15px; margin-bottom:10px; border-radius:10px; }
-.small { color:#aaa; font-size:12px; }
 
-.image-box {
-  margin-top:10px;
-  padding:10px;
-  background:#1a1a1a;
-  border-radius:8px;
+body{
+  font-family:Arial;
+  background:#111;
+  color:#fff;
+  padding:20px;
 }
 
-.image-box a {
-  color:#4da3ff;
-  text-decoration:none;
-  display:block;
-  margin-top:5px;
+.card{
+  background:#222;
+  padding:15px;
+  margin-bottom:15px;
+  border-radius:10px;
 }
 
-.image-name {
+.small{
+  color:#aaa;
   font-size:12px;
-  color:#bbb;
 }
+
+input{
+  width:300px;
+  padding:10px;
+  margin-right:10px;
+}
+
+button{
+  padding:10px 15px;
+  cursor:pointer;
+}
+
+.photo{
+  margin-top:10px;
+}
+
+.photo a{
+  color:#7db8ff;
+  text-decoration:none;
+}
+
+.photo a:hover{
+  text-decoration:underline;
+}
+
 </style>
 
 </head>
+
 <body>
 
 <h1>📦 Commandes Studio Crayon</h1>
-<div id="orders">Chargement...</div>
+
+<div id="login">
+
+  <input
+    id="password"
+    type="password"
+    placeholder="Mot de passe admin">
+
+  <button onclick="loadOrders()">
+
+    Ouvrir
+
+  </button>
+
+</div>
+
+<br>
+
+<div id="orders"></div>
 
 <script>
-async function loadOrders() {
-  const res = await fetch("https://studio-crayon-api.jenagreen98.workers.dev/orders");
+
+async function loadOrders(){
+
+  const password =
+    document.getElementById("password").value;
+
+  if(!password){
+
+    alert("Entre le mot de passe");
+
+    return;
+  }
+
+  const res = await fetch(
+
+    "https://studio-crayon-api.jenagreen98.workers.dev/orders",
+
+    {
+      headers:{
+        "x-admin-password":password
+      }
+    }
+
+  );
+
+  if(res.status===401){
+
+    alert("Mot de passe incorrect");
+
+    return;
+  }
+
   const data = await res.json();
 
-  const container = document.getElementById("orders");
-  container.innerHTML = "";
+  const container =
+    document.getElementById("orders");
 
-  data.orders.forEach(o => {
-    const div = document.createElement("div");
-    div.className = "card";
+  container.innerHTML="";
 
-    const images = (o.images || []).map(img => {
-      const fileName = img.split("/").pop();
+  data.orders.forEach(o=>{
+
+    const images=(o.images||[]).map(img=>{
+
+      const fileName =
+        img.split("/").pop();
 
       return `
-        <div class="image-box">
-          <div class="image-name">📁 ${fileName}</div>
-          <a href="${img}" target="_blank">👁 Ouvrir / télécharger l’image</a>
+
+        <div class="photo">
+
+          📎 ${fileName}
+
         </div>
+
       `;
+
     }).join("");
 
-    div.innerHTML = `
-      <b>Order :</b> ${o.orderId}<br>
-      <b>Type :</b> ${o.type} | ${o.format} | ${o.subjects} sujets<br>
-      <b>Client :</b> ${o.customer?.name || "N/A"}<br>
-      <b>Email :</b> ${o.customer?.email || "N/A"}<br>
-      <b>Payé :</b> ${o.paid ? "✅ oui" : "❌ non"}<br>
-      <div class="small">${o.createdAt}</div>
+    const div=document.createElement("div");
+
+    div.className="card";
+
+    div.innerHTML=`
+
+      <b>Commande :</b>
+
+      ${o.orderId}
+
+      <br><br>
+
+      <b>Type :</b>
+
+      ${o.type}
+
+      |
+
+      ${o.format}
+
+      |
+
+      ${o.subjects}
+
+      sujets
+
+      <br><br>
+
+      <b>Client :</b>
+
+      ${o.customer?.name || "N/A"}
+
+      <br><br>
+
+      <b>Email :</b>
+
+      ${o.customer?.email || "N/A"}
+
+      <br><br>
+
+      <b>Payé :</b>
+
+      ${o.paid ? "✅ oui" : "❌ non"}
+
+      <br><br>
 
       ${images}
+
+      <div class="small">
+
+      ${o.createdAt}
+
+      </div>
+
     `;
 
     container.appendChild(div);
+
   });
+
 }
 
-loadOrders();
 </script>
 
 </body>

@@ -171,6 +171,7 @@
 
 </div>
 
+<!-- ⚠️ TON HTML EST IDENTIQUE, SEULE LA PARTIE SCRIPT CHANGE -->
 <script>
 let type = null;
 let orderId = null;
@@ -279,21 +280,24 @@ async function uploadImages() {
 }
 
 /* =========================
-   STRIPE (CORRIGÉ)
+   STRIPE
 ========================= */
 async function sendOrder() {
 
   if (!type) return alert("Choisis une technique");
+
+  const name = document.getElementById("name").value.trim();
+  const firstname = document.getElementById("firstname").value.trim();
 
   const order = {
     orderId: getOrderId(),
     type,
     subjects: document.getElementById("subjects").value,
     format: document.getElementById("format").value,
-    name: document.getElementById("name").value,
-    firstname: document.getElementById("firstname").value,
-    email: document.getElementById("email").value,
-    message: document.getElementById("message").value
+
+    name: `${firstname} ${name}`.trim(),
+    email: document.getElementById("email").value.trim(),
+    message: document.getElementById("message").value.trim()
   };
 
   const res = await fetch(

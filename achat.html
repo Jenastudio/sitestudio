@@ -252,9 +252,9 @@ function calculatePrice() {
 }
 
 /* =========================
-   UPLOAD
+   UPLOAD (IMPORTANT FIX : sécurisé)
 ========================= */
-async function uploadImages() {
+async function uploadImages(orderIdLocal) {
   const input = document.getElementById("images");
   const files = input.files;
 
@@ -265,7 +265,7 @@ async function uploadImages() {
   for (const file of files) {
     const fd = new FormData();
     fd.append("file", file);
-    fd.append("orderId", getOrderId());
+    fd.append("orderId", orderIdLocal);
 
     const res = await fetch(
       "https://studio-crayon-api.jenagreen98.workers.dev/upload-image",
@@ -280,23 +280,22 @@ async function uploadImages() {
 }
 
 /* =========================
-   STRIPE
+   STRIPE (FIX IMPORTANT)
 ========================= */
 async function sendOrder() {
 
   if (!type) return alert("Choisis une technique");
 
-  const name = document.getElementById("name").value.trim();
-  const firstname = document.getElementById("firstname").value.trim();
+  const id = getOrderId();
 
   const order = {
-    orderId: getOrderId(),
+    orderId: id,
     type,
     subjects: document.getElementById("subjects").value,
     format: document.getElementById("format").value,
-
-    name: `${firstname} ${name}`.trim(),
+    name: document.getElementById("firstname").value + " " + document.getElementById("name").value,
     email: document.getElementById("email").value.trim(),
+    address: document.getElementById("address")?.value || "",
     message: document.getElementById("message").value.trim()
   };
 
@@ -317,7 +316,8 @@ async function sendOrder() {
     return;
   }
 
-  await uploadImages();
+  // upload AVANT redirection (corrige perte de données)
+  await uploadImages(id);
 
   window.location.href = result.url;
 }

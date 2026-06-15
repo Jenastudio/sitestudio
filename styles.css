@@ -289,3 +289,61 @@ form textarea {
   h1 { font-size: 20px; }
   p { font-size: 12px; }
 }
+.techniques-selection {
+  margin-top: 75px;
+  padding: 40px 0;
+  text-align: center;
+}
+.commande-section {
+  text-align: center;
+  padding: 40px 20px;
+  background: var(--beige);
+}
+
+.commande-section h2 {
+  font-family: inherit;
+  color: var(--noir);
+  margin-bottom: 20px;
+}
+
+.commande-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 340px;
+  margin: auto;
+}
+
+.commande-btn {
+  padding: 14px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.25s ease;
+  border: 1px solid transparent;
+  display: inline-block;
+}
+
+/* BOUTON PRINCIPAL (COMMANDER) */
+.commande-btn.primary {
+  background: var(--brun);
+  color: var(--beige);
+  border: 1px solid var(--brun);
+}
+
+.commande-btn.primary:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* BOUTON CONTACT */
+.commande-btn.secondary {
+  background: transparent;
+  color: var(--brun);
+  border: 2px solid var(--brun);
+}
+
+.commande-btn.secondary:hover {
+  background: var(--brun);
+  color: var(--beige);
+}

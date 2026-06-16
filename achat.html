@@ -150,10 +150,6 @@
   </div>
 
   <div class="box">
-    💡 Envoyez des photos nettes, bien éclairées et de face si possible.
-  </div>
-
-  <div class="box">
 
     <input type="text" id="name" placeholder="Nom *" required>
     <input type="text" id="firstname" placeholder="Prénom *" required>
@@ -161,9 +157,12 @@
 
     <textarea id="message" placeholder="Précisions (optionnel)" rows="5"></textarea>
 
-    <input type="file" id="images" multiple accept="image/*">
-
-  </div>
+    <input id="images" type="file" name="file" required multiple accept="image/*">
+   <small>
+  💡 Envoyez des photos nettes, bien éclairées et de face si possible.
+  💡 Ordinateur: maintenez CTRL (ou SHIFT)+ clic pour sélectionner plusieurs images sur Windows.
+   </small>
+   </div>
 
   <button onclick="sendOrder()">
     Procéder au paiement
@@ -288,7 +287,12 @@ async function sendOrder() {
     alert("Choisis une technique");
     return;
   }
+ const files = document.querySelector('input[type="file"]').files;
 
+if (!files || files.length === 0) {
+  alert("Veuillez ajouter au moins une photo");
+  return;
+}
   const id = getOrderId();
 
   const order = {

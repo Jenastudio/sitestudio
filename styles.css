@@ -101,7 +101,7 @@ body {
 
 .hero-text {
   position: absolute;
-  top: 50%;
+  top: 35%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: rgba(255,255,255,0.85);
@@ -136,27 +136,39 @@ body {
 }
 
 .image-link {
-  width: 160px;
-  height: 160px;
-  position: relative;
+  width: 268px;
+  height: 268px;
+  flex: 0 0 268px;
   border-radius: 16px;
   overflow: hidden;
+  position: relative;
 }
 
 .image-technique {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
 .image-link p {
   position: absolute;
-  bottom: 10px;
-  width: 100%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+
+  padding: 8px 0;
+
   text-align: center;
+
   color: #fff;
   font-weight: bold;
+
   text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+
+  background: rgba(0,0,0,0.25);
 }
 
 /* =========================
@@ -254,41 +266,7 @@ form textarea {
   width: 100%;
   font-family: inherit;
 }
-/* =========================
-   MOBILE (SIMPLIFIED, NO HEAVY OVERRIDES)
-========================= */
-@media (max-width: 768px) {
 
-  .site-header .container {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .hero-image {
-    height: 250px;
-  }
-
-  .image-link {
-    width: 45%;
-    height: 120px;
-  }
-
-  .grid-gallery {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .grid-gallery img {
-    height: 120px;
-  }
-
-  .presentation img {
-    width: 80px;
-    height: 80px;
-  }
-
-  h1 { font-size: 20px; }
-  p { font-size: 12px; }
-}
 .techniques-selection {
   margin-top: 75px;
   padding: 40px 0;
@@ -305,7 +283,10 @@ form textarea {
   color: var(--noir);
   margin-bottom: 20px;
 }
-
+.commande-section p {
+ font-family: "Nunito", sans-serif;
+  font-weight: 350;
+}
 .commande-buttons {
   display: flex;
   flex-direction: column;
@@ -346,4 +327,224 @@ form textarea {
 .commande-btn.secondary:hover {
   background: var(--brun);
   color: var(--beige);
+}
+/* =========================
+   ACCUEIL 2 COLONNES
+========================= */
+
+.accueil-layout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 60px;
+  margin-top: 40px;
+}
+
+/* colonne gauche */
+.accueil-left {
+  flex: 1;
+}
+
+/* colonne droite */
+.accueil-right {
+  flex: 1;
+}
+
+/* évite un double espace en haut */
+.accueil-left .techniques-selection {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* réutilise ton style existant */
+.accueil-right .commande-section {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+/* espace entre les paragraphes */
+.accueil-right .commande-section p {
+  margin-bottom: 15px;
+}
+
+/* garde les boutons centrés */
+.accueil-right .commande-buttons {
+  margin-top: 20px;
+}
+.techniques-selection {
+  margin-top: 0;
+  padding-top: 0;
+}
+.techniques-selection h2 {
+  margin-bottom: 50px;
+}
+.accueil-left,
+.accueil-right {
+  flex: 1;
+}
+@media (max-width: 768px) {
+
+  /* =========================
+     ON CASSE LES 2 COLONNES
+  ========================= */
+
+  .accueil-layout {
+    display: block; /* IMPORTANT */
+  }
+
+  .accueil-left,
+  .accueil-right {
+    width: 100%;
+  }
+
+  /* =========================
+     TECHNIQUES (EN HAUT)
+  ========================= */
+
+  .images-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .image-link {
+    margin-top: 10px;
+    width: 48%;
+    flex: 0 0 48%;
+    height: 120px;
+  }
+
+  .image-technique {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* =========================
+     COMMANDE (EN BAS)
+  ========================= */
+
+  .commande-section {
+   padding: 10px 12px;
+  }
+  .commande-section h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+  }
+  .commande-section p {
+  font-size: 10px;
+  line-height: 1.3;
+  margin-bottom: 8px;
+  }
+ .commande-secondary h3 {
+  font-size: 15px;
+  margin-bottom: 6px;
+ }
+  .commande-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .commande-btn {
+  padding: 10px 12px;
+  font-size: 14px;
+}
+.commande-secondary {
+  margin-top: 5px;
+}
+
+.commande-separator {
+  margin: 2px 0;
+}
+
+.site-header {
+    padding: 3px 0;
+  }
+
+  .site-header .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 2px 0;
+  }
+
+  .site-name {
+    font-size: 12px;
+    line-height: 1;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .nav-links a {
+    font-size: 8px;
+  }
+
+  /* =========================
+     BANNER ULTRA COMPACT
+  ========================= */
+
+  .banner {
+    height: 80px; /* réduit fort */
+    border-radius: 8px;
+  }
+
+  .hero-text {
+    top: 10%;
+    transform: translate(-50%, 0);
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  .hero-text h1 {
+    font-size: 12px;
+    margin: 0;
+  }
+
+  .hero-text p {
+    font-size: 8px;
+    line-height: 1.1;
+  }
+
+  /* image plus stable */
+  .banner-img {
+    height: 100%;
+    object-fit: cover;
+  }
+/* =========================
+   À PROPOS - MOBILE COMPACT
+========================= */
+
+.presentation {
+  padding: 15px 10px;
+}
+
+.presentation .container {
+  gap: 10px;
+}
+
+.about-img img,
+.presentation img {
+  width: 70px;
+  height: 70px;
+}
+
+.about-text h2 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.about-text p {
+  font-size: 12px;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
 }

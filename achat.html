@@ -157,6 +157,7 @@
     <input type="text" id="name" placeholder="Nom *" required>
     <input type="text" id="firstname" placeholder="Prénom *" required>
     <input type="email" id="email" placeholder="Email *" required>
+    <input type="email" id="emailConfirm" placeholder="confirmez votre email *" required>
 
     <textarea id="message" placeholder="Précisions (optionnel)" rows="5"></textarea>
 
@@ -286,6 +287,13 @@ async function uploadImages(orderIdLocal) {
 ========================= */
 async function sendOrder() {
 
+ const email = document.getElementById("email").value.trim();
+ const emailConfirm = document.getElementById("emailConfirm").value.trim();
+
+if (email !== emailConfirm) {
+  alert("Les deux adresses e-mail ne correspondent pas.");
+  return;
+}
   if (!type) {
     alert("Choisis une technique");
     return;

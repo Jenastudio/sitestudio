@@ -67,6 +67,9 @@
           <label for="email">E-mail :</label>
           <input type="email" id="email" name="email" required />
 
+          <label for="confirmation_email">Confirmez votre email</label>
+          <input type="email" id="confirmation_email" name="confirmation_email" required />
+
           <label for="message">Message :</label>
           <textarea id="message" name="message" rows="6" required></textarea>
 
@@ -83,15 +86,26 @@
   </footer>
 
   <!-- Snippet conversion pour Google Ads -->
-  <script>
-    const form = document.querySelector('form');
-    form.addEventListener('submit', function() {
-      gtag('event', 'conversion', {
-        'send_to': 'AW-10941108785/Ild_CKOR_8kbELGkkOEo', // ID fourni par Google
-        'value': 1.0,
-        'currency': 'EUR'
-      });
-    });
-  </script>
+  ```html
+<script>
+const formulaire = document.querySelector('form[action="https://formspree.io/f/xzzrpkwl"]');
+const email = document.getElementById('email');
+const confirmation = document.getElementById('confirmation_email');
+
+function verifierEmails() {
+  confirmation.setCustomValidity(
+    confirmation.value && confirmation.value !== email.value
+      ? 'Les adresses e-mail ne correspondent pas.'
+      : ''
+  );
+}
+
+email.addEventListener('input', verifierEmails);
+confirmation.addEventListener('input', verifierEmails);
+confirmation.addEventListener('change', verifierEmails);
+formulaire.addEventListener('click', verifierEmails);
+</script>
+```
+
 </body>
 </html>
